@@ -7,7 +7,7 @@ from bx_py_utils.path import assert_is_file
 import inverter
 
 
-CLI_EPILOG = 'Project Homepage: https://github.com/jedie/inverter-connect'
+CLI_EPILOG = 'Project Homepage: https://github.com/wickedchicken/inverter-connect-api'
 
 
 PACKAGE_ROOT = Path(inverter.__file__).parent.parent
