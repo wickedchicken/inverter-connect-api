@@ -1,11 +1,11 @@
 [project]
-name = "inverter-connect"
+name = "inverter-connect-api"
 dynamic = ["version"]
-description = "Get information from Deye Microinverter"
+description = "A library to get information from Deye Microinverters"
 license = {text = "GPL-3.0-or-later"}
 readme = "README.md"
 authors = [
-    {name = 'Jens Diemer', email = 'inverter-connect@jensdiemer.de'}
+    {name = 'Mike Stipicevic', email = 'stipredirect@gmail.com'}
 ]
 requires-python = ">=3.9,<4"
 dependencies = [
@@ -51,8 +51,8 @@ dev = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/jedie/inverter-connect"
-Source = "https://github.com/jedie/inverter-connect"
+Documentation = "https://github.com/wickedchicken/inverter-connect-api"
+Source = "https://github.com/wickedchicken/inverter-connect-api"
 
 [project.scripts]
 inverter_app = "inverter.__main__:main"
@@ -146,22 +146,3 @@ allow_redefinition = true  # https://github.com/python/mypy/issues/7165
 show_error_codes = true
 plugins = []
 exclude = ['.venv', 'tests']
-
-
-[manageprojects] # https://github.com/jedie/manageprojects
-initial_revision = "584f39b"
-initial_date = 2023-04-13T17:19:29+02:00
-cookiecutter_template = "https://github.com/jedie/cookiecutter_templates/"
-cookiecutter_directory = "piptools-python"
-
-[manageprojects.cookiecutter_context.cookiecutter]
-full_name = "Jens Diemer"
-github_username = "jedie"
-author_email = "inverter-connect@jensdiemer.de"
-package_name = "inverter"
-package_version = "0.0.1"
-package_description = "Get information from Deye Microinverter"
-package_url = "https://github.com/jedie/inverter-connect"
-issues_url = "https://github.com/jedie/inverter-connect/issues"
-license = "GPL-3.0-or-later"
-_template = "https://github.com/jedie/cookiecutter_templates/"
