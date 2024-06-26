@@ -24,15 +24,6 @@ class ReadmeTestCase(BaseTestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
 
-        settings_overwrites = dict(
-            systemd=dict(
-                template_context=dict(
-                    user='MockedUserName',
-                    group='MockedUserName',
-                )
-            ),
-        )
-
         cls.cli_mock = TomlSettingsCliMock(
             SettingsDataclass=UserSettings,
             settings_overwrites=settings_overwrites,

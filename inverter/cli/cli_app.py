@@ -12,7 +12,6 @@ from pathlib import Path
 import rich_click
 import rich_click as click
 from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
-from cli_base.systemd.api import ServiceControl
 from cli_base.toml_settings.api import TomlSettings
 from cli_base.toml_settings.exceptions import UserSettingsNotFound
 from ha_services.mqtt4homeassistant.mqtt import get_connected_client
@@ -30,7 +29,7 @@ from inverter.constants import SETTINGS_DIR_NAME, SETTINGS_FILE_NAME
 from inverter.data_types import InverterRegisterVersionInfo
 from inverter.definitions import get_definition_names
 from inverter.exceptions import ReadInverterError
-from inverter.user_settings import SystemdServiceInfo, UserSettings, make_config, migrate_old_settings
+from inverter.user_settings import UserSettings, make_config, migrate_old_settings
 from inverter.utilities.cli import (
     convert_address_option,
     print_inverter_values,
@@ -162,85 +161,6 @@ def debug_settings(verbosity: int):
 
 
 cli.add_command(debug_settings)
-
-
-######################################################################################################
-# Manage systemd service commands:
-
-
-@click.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-def systemd_debug(verbosity: int):
-    """
-    Print Systemd service template + context + rendered file content.
-    """
-    setup_logging(verbosity=verbosity)
-    systemd_settings: SystemdServiceInfo = user_settings.systemd
-
-    ServiceControl(info=systemd_settings).debug_systemd_config()
-
-
-cli.add_command(systemd_debug)
-
-
-@click.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-def systemd_setup(verbosity: int):
-    """
-    Write Systemd service file, enable it and (re-)start the service. (May need sudo)
-    """
-    setup_logging(verbosity=verbosity)
-    systemd_settings: SystemdServiceInfo = user_settings.systemd
-
-    ServiceControl(info=systemd_settings).setup_and_restart_systemd_service()
-
-
-cli.add_command(systemd_setup)
-
-
-@click.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-def systemd_remove(verbosity: int):
-    """
-    Write Systemd service file, enable it and (re-)start the service. (May need sudo)
-    """
-    setup_logging(verbosity=verbosity)
-    systemd_settings: SystemdServiceInfo = user_settings.systemd
-
-    ServiceControl(info=systemd_settings).remove_systemd_service()
-
-
-cli.add_command(systemd_remove)
-
-
-@click.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-def systemd_status(verbosity: int):
-    """
-    Display status of systemd service. (May need sudo)
-    """
-    setup_logging(verbosity=verbosity)
-    systemd_settings: SystemdServiceInfo = user_settings.systemd
-
-    ServiceControl(info=systemd_settings).status()
-
-
-cli.add_command(systemd_status)
-
-
-@click.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-def systemd_stop(verbosity: int):
-    """
-    Stops the systemd service. (May need sudo)
-    """
-    setup_logging(verbosity=verbosity)
-    systemd_settings: SystemdServiceInfo = user_settings.systemd
-
-    ServiceControl(info=systemd_settings).stop()
-
-
-cli.add_command(systemd_stop)
 
 
 ######################################################################################################
