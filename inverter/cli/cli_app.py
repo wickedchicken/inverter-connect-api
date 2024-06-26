@@ -30,7 +30,6 @@ from inverter.constants import SETTINGS_DIR_NAME, SETTINGS_FILE_NAME
 from inverter.data_types import InverterRegisterVersionInfo
 from inverter.definitions import get_definition_names
 from inverter.exceptions import ReadInverterError
-from inverter.publish_loop import publish_forever
 from inverter.user_settings import SystemdServiceInfo, UserSettings, make_config, migrate_old_settings
 from inverter.utilities.cli import (
     convert_address_option,
@@ -568,38 +567,6 @@ def test_mqtt_connection(verbosity: int):
 
 
 cli.add_command(test_mqtt_connection)
-
-
-@click.command()
-@click.option('--ip', **option_kwargs_ip)
-@click.option('--port', **option_kwargs_port)
-@click.option('--inverter', **option_kwargs_inverter_name)
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-def publish_loop(ip, port, inverter, verbosity: int):
-    """
-    Publish current data via MQTT for Home Assistant (endless loop)
-
-    The "Daily Production" count will be cleared in the night,
-    by set the current date time via AT-command.
-    """
-
-    setup_logging(verbosity=verbosity)
-
-    config = make_config(
-        user_settings=user_settings,
-        config_path=toml_settings.file_path.parent,  # e.g.: ~/.config/inverter-connect/
-        verbosity=verbosity,
-        ip=ip,
-        port=port,
-        inverter=inverter,
-    )
-    try:
-        publish_forever(config=config, verbosity=verbosity)
-    except KeyboardInterrupt:
-        print('Bye, bye')
-
-
-cli.add_command(publish_loop)
 
 
 def exit_func():
