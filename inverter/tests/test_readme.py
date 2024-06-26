@@ -24,15 +24,6 @@ class ReadmeTestCase(BaseTestCase):
     def setUpClass(cls) -> None:
         super().setUpClass()
 
-        settings_overwrites = dict(
-            systemd=dict(
-                template_context=dict(
-                    user='MockedUserName',
-                    group='MockedUserName',
-                )
-            ),
-        )
-
         cls.cli_mock = TomlSettingsCliMock(
             SettingsDataclass=UserSettings,
             settings_overwrites=settings_overwrites,
@@ -90,19 +81,6 @@ class ReadmeTestCase(BaseTestCase):
             ),
         )
         self.readme_assert.assert_block(text_block=stdout, marker='dev help')
-
-    def test_publish_loop_help(self):
-        stdout = self.invoke_cli('publish-loop', '--help')
-        assert_in(
-            content=stdout,
-            parts=(
-                'Usage: ./cli.py publish-loop [OPTIONS]',
-                'IP address of your inverter [required]',
-                '--port',
-                '--verbosity',
-            ),
-        )
-        self.readme_assert.assert_block(text_block=stdout, marker='publish-loop help')
 
     def test_print_values_help(self):
         stdout = self.invoke_cli('print-values', '--help')

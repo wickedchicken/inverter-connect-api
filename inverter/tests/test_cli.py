@@ -84,26 +84,3 @@ class CliTestCase(BaseTestCase):
                         ),
                     )
         self.assertEqual(os.environ, env)
-
-    def test_systemd_not_available(self):
-        settings_overwrites = dict(
-            systemd=dict(
-                systemd_base_path='/no/systemd/available/here/',
-            ),
-        )
-        with TomlSettingsCliMock(
-            SettingsDataclass=UserSettings,
-            settings_overwrites=settings_overwrites,
-            dir_name=SETTINGS_DIR_NAME,
-            file_name=SETTINGS_FILE_NAME,
-        ) as cli_mock:
-            with self.assertRaises(SystemExit):
-                stdout = cli_mock.invoke(cli_bin=PACKAGE_ROOT / 'cli.py', args=('systemd-setup',))
-                assert_in(
-                    stdout,
-                    parts=(
-                        'No Systemd',
-                        'Systemd not available',
-                        '/no/systemd/available/here',
-                    ),
-                )

@@ -7,7 +7,6 @@ from pathlib import Path
 
 import tomlkit
 from cli_base.cli_tools.rich_utils import human_error
-from cli_base.systemd.data_classes import BaseSystemdServiceInfo, BaseSystemdServiceTemplateContext
 from cli_base.toml_settings.api import TomlSettings
 from cli_base.toml_settings.serialize import dataclass2toml
 from ha_services.mqtt4homeassistant.data_classes import MqttSettings as OriginMqttSettings
@@ -42,31 +41,11 @@ class Inverter:
 
 
 @dataclasses.dataclass
-class SystemdServiceTemplateContext(BaseSystemdServiceTemplateContext):
-    """
-    Context values for the systemd service file content
-    """
-
-    verbose_service_name: str = 'Inverter Connect'
-    exec_start: str = f'{sys.executable} -m inverter publish-loop'
-
-
-@dataclasses.dataclass
-class SystemdServiceInfo(BaseSystemdServiceInfo):
-    """
-    Information for systemd helper functions
-    """
-
-    template_context: SystemdServiceTemplateContext = dataclasses.field(default_factory=SystemdServiceTemplateContext)
-
-
-@dataclasses.dataclass
 class UserSettings:
     """
     User settings for inverter-connect
     """
 
-    systemd: dataclasses = dataclasses.field(default_factory=SystemdServiceInfo)
     mqtt: dataclasses = dataclasses.field(default_factory=MqttSettings)
     inverter: dataclasses = dataclasses.field(default_factory=Inverter)
 
